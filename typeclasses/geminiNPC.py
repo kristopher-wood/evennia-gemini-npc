@@ -31,6 +31,8 @@ from transformers import pipeline
 
 
 DEFAULT_LLM_REQUEST_BODY = []
+DEFAULT_WEAVIATE_URL = "http://localhost:8080"
+DEFAULT_WEAVIATE_KEY = ""
 
 class GeminiNPC(Character):
     """An NPC that uses the Google Gemini API server to generate its responses. If the server is slow, it will
@@ -104,13 +106,20 @@ class GeminiNPC(Character):
     chat_memory = AttributeProperty(defaultdict(list))
 
     def delete_memories(self):
-        wClient = weaviate.Client("http://localhost:8080")
+        # Instantiate the client with the auth config
+        wClient = weaviate.Client(
+            url=getattr(settings, "WEAVIATE_URL", DEFAULT_WEAVIATE_URL),  # Replace w/ your endpoint
+            auth_client_secret=weaviate.AuthApiKey(api_key=getattr(settings, "WEAVIATE_KEY", DEFAULT_WEAVIATE_KEY)),  # Replace w/ your Weaviate instance API key
+        )
         # TODO: Find out if this works
         response = wClient.schema.delete_class("Memories")
         logger.log_info(f"Deleted Existing Memories: {response}")
 
     def initialize_memories(self):
-        wClient = weaviate.Client("http://localhost:8080")
+        wClient = weaviate.Client(
+            url=getattr(settings, "WEAVIATE_URL", DEFAULT_WEAVIATE_URL),  # Replace w/ your endpoint
+            auth_client_secret=weaviate.AuthApiKey(api_key=getattr(settings, "WEAVIATE_KEY", DEFAULT_WEAVIATE_KEY)),  # Replace w/ your Weaviate instance API key
+        )
         class_obj = {
           "class": "Memories",
           "vectorizer": "text2vec-transformers",
@@ -142,7 +151,7 @@ class GeminiNPC(Character):
           },
         }
         response = wClient.schema.create_class(class_obj)  # returns null on success
-        #logger.log_info(f"Create Memories Class: {response}")
+        logger.log_info(f"Create Memories Class: {response}")
 
     def add_memory(self, text, from_obj):
         response = ""
