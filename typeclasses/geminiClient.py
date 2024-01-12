@@ -10,7 +10,6 @@ from twisted.web.client import Agent, HTTPConnectionPool, _HTTP11ClientFactory
 from twisted.web.http_headers import Headers
 from twisted.web.iweb import IBodyProducer
 from zope.interface import implementer
-from typeclasses.weaviateClient import WeaviateClient as WeaviateClient
 
 import google.generativeai as genai
 
