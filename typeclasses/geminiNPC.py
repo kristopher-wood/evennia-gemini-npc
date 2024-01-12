@@ -180,7 +180,10 @@ class GeminiNPC(Character):
 
     def query_memories(self, text=None, from_obj=None):
         query_result = {}
-        wClient = weaviate.Client("http://localhost:8080")
+        wClient = weaviate.Client(
+            url=getattr(settings, "WEAVIATE_URL", DEFAULT_WEAVIATE_URL),  # Replace w/ your endpoint
+            auth_client_secret=weaviate.AuthApiKey(api_key=getattr(settings, "WEAVIATE_KEY", DEFAULT_WEAVIATE_KEY)),  # Replace w/ your Weaviate instance API key
+        )
         n = 5 # number (int) of memories to return
         certainty = 0.8 # float between 0 and 1
         # TODO: Find a way to handle this dynamically
