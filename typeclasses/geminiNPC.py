@@ -179,47 +179,50 @@ class GeminiNPC(Character):
         return response
 
     def query_memories(self, text=None, from_obj=None):
-        query_result = {}
-        wClient = weaviate.Client(
-            url=getattr(settings, "WEAVIATE_URL", DEFAULT_WEAVIATE_URL),  # Replace w/ your endpoint
-            auth_client_secret=weaviate.AuthApiKey(api_key=getattr(settings, "WEAVIATE_KEY", DEFAULT_WEAVIATE_KEY)),  # Replace w/ your Weaviate instance API key
-        )
-        n = 5 # number (int) of memories to return
-        certainty = 0.8 # float between 0 and 1
-        # TODO: Find a way to handle this dynamically
-        moveTo = {
-              "concepts": [""],
-              "force": 0.85
-            } or {} # string of the object to move to TODO define "move to"
+        try:
+          query_result = {}
+          wClient = weaviate.Client(
+              url=getattr(settings, "WEAVIATE_URL", DEFAULT_WEAVIATE_URL),  # Replace w/ your endpoint
+              auth_client_secret=weaviate.AuthApiKey(api_key=getattr(settings, "WEAVIATE_KEY", DEFAULT_WEAVIATE_KEY)),  # Replace w/ your Weaviate instance API key
+          )
+          n = 5 # number (int) of memories to return
+          certainty = 0.8 # float between 0 and 1
+          # TODO: Find a way to handle this dynamically
+          moveTo = {
+                "concepts": [""],
+                "force": 0.85
+              } or {} # string of the object to move to TODO define "move to"
 
-        # If there is no input, return the most recent n memories
-        if text is None:
-          query_result = wClient.query\
-            .get("Memories", ["self","text","from_obj", "timestamp"])\
-            .with_sort({
-                'path': ['timestamp'],
-                'order': 'desc',
-            }).do()
-          pass
-        # else return the closest n matches by certainty
-        else:
-          if type(text) is tuple:
-              text = text[0]
-
-          near_text_filter = {
-            "concepts": [text],
-            "certainty": certainty
-          }
-
-          # This will need to be dynamically generated eventually
-          query_result = wClient.query\
+          # If there is no input, return the most recent n memories
+          if text is None:
+            query_result = wClient.query\
               .get("Memories", ["self","text","from_obj", "timestamp"])\
-              .with_near_text(near_text_filter)\
-              .with_additional(["certainty"])\
-              .with_limit(n)\
-              .do()
-        #logger.log_info(f"Query Result: {query_result}")
-        return query_result
+              .with_sort({
+                  'path': ['timestamp'],
+                  'order': 'desc',
+              }).do()
+            pass
+          # else return the closest n matches by certainty
+          else:
+            if type(text) is tuple:
+                text = text[0]
+
+            near_text_filter = {
+              "concepts": [text],
+              "certainty": certainty
+            }
+
+            # This will need to be dynamically generated eventually
+            query_result = wClient.query\
+                .get("Memories", ["self","text","from_obj", "timestamp"])\
+                .with_near_text(near_text_filter)\
+                .with_additional(["certainty"])\
+                .with_limit(n)\
+                .do()
+          #logger.log_info(f"Query Result: {query_result}")
+          return query_result
+        except Exception as err:
+           return err
 
     @inlineCallbacks
     def at_msg_receive(self, text=None, from_obj=None, **kwargs):
