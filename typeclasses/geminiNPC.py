@@ -262,7 +262,7 @@ class GeminiNPC(Character):
 
       memoryArray.append({"text": "Recent Memory Result."})
       #builtins.TypeError: 'UnexpectedStatusCodeException' object is not subscriptable
-      if type(memoryResult) is not dict:
+      if (type(memoryResult) is not dict or not memoryResult.get('data')):
         memoryArray.append({"text": f"No memories found. {memoryResult}"})
       else:
         for memory in memoryResult['data']['Get']['Memories']:
@@ -276,9 +276,10 @@ class GeminiNPC(Character):
       # build the prompt
       memoryResult = self.query_memories(text, from_obj)
       #builtins.TypeError: 'UnexpectedStatusCodeException' object is not subscriptable
-      if type(memoryResult) is not dict:
+      if (type(memoryResult) is not dict or not memoryResult.get('data')):
         memoryArray.append({"text": f"No memories found. {memoryResult}"})
       else:
+        # If memoryResult has no data return no memories found
         for memory in memoryResult['data']['Get']['Memories']:
             memoryArray.append({"text": json.dumps(memory)})
       
