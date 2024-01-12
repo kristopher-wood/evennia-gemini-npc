@@ -25,7 +25,7 @@ import weaviate
 import json
 
 DEFAULT_LLM_REQUEST_BODY = []
-DEFAULT_WEAVIATE_URL = "http://localhost:8080"
+DEFAULT_WEAVIATE_URL = ""
 DEFAULT_WEAVIATE_KEY = ""
 
 class GeminiNPC(Character):
@@ -150,7 +150,10 @@ class GeminiNPC(Character):
     def add_memory(self, text, from_obj):
         response = ""
         try:
-          wClient = weaviate.Client("http://localhost:8080")
+          wClient = weaviate.Client(
+              url=getattr(settings, "WEAVIATE_URL", DEFAULT_WEAVIATE_URL),  # Replace w/ your endpoint
+              auth_client_secret=weaviate.AuthApiKey(api_key=getattr(settings, "WEAVIATE_KEY", DEFAULT_WEAVIATE_KEY)),  # Replace w/ your Weaviate instance API key
+          )
 
           timestamp = datetime.now(timezone.utc).isoformat() or None
           #logger.log_info(f"self.name type: {type(self.name)}")
