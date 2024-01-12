@@ -14,19 +14,15 @@ from collections import defaultdict
 from random import choice
 
 from django.conf import settings
-from twisted.internet import reactor, task
-from twisted.internet.defer import CancelledError, inlineCallbacks
+from twisted.internet.defer import inlineCallbacks
 
-from evennia import AttributeProperty, DefaultCharacter, logger, Msg
-from evennia.utils.utils import make_iter
-from evennia.utils.ansi import strip_ansi
+from evennia import AttributeProperty, logger
 from typeclasses.characters import Character
 
 from typeclasses.geminiClient import GeminiClient
 
 import weaviate
 import json
-import torch
 from transformers import pipeline
 
 
@@ -284,25 +280,4 @@ class GeminiNPC(Character):
       
       # get the response from the LLM server
       yield self.geminiClient.get_response(content).addCallback(_respond)
-      """
-      torch.set_default_device("cuda")
-
-      pipe = pipeline("text-generation", model="TinyLlama/TinyLlama-1.1B-Chat-v1.0", torch_dtype=torch.bfloat16, device_map="auto")
-
-      # We use the tokenizer's chat template to format each message - see https://huggingface.co/docs/transformers/main/en/chat_templating
-      messages = [
-          {
-              "role": "system",
-              "content": "You will be given a system message containing the available commands for use with the user message. Respond with a command word followed by your response in a single line of text.",
-          },
-          {
-             "role": "system",
-             "content": f"Your current available commands are: {self.cmdset.current.get_all_cmd_keys_and_aliases()}"
-          },
-          {"role": "user", "content": text}
-      ]
-      prompt = pipe.tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
-      outputs = pipe(prompt, max_new_tokens=256, do_sample=True, temperature=0.7, top_k=50, top_p=0.95)
-
-      yield _respond(outputs[0]["generated_text"])"""
 

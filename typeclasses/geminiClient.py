@@ -1,15 +1,10 @@
-from evennia.contrib.rpg.llm.llm_client import SimpleResponseReceiver, QuietHTTP11ClientFactory, StringProducer
+from evennia.contrib.rpg.llm.llm_client import SimpleResponseReceiver
 import json
-import requests
 from django.conf import settings
 from evennia import logger
 from evennia.utils.utils import make_iter
-from twisted.internet import defer, protocol, reactor
+from twisted.internet import defer
 from twisted.internet.defer import inlineCallbacks
-from twisted.web.client import Agent, HTTPConnectionPool, _HTTP11ClientFactory
-from twisted.web.http_headers import Headers
-from twisted.web.iweb import IBodyProducer
-from zope.interface import implementer
 
 import google.generativeai as genai
 
