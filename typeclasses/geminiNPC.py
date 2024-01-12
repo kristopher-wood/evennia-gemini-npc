@@ -275,9 +275,12 @@ class GeminiNPC(Character):
 
       # build the prompt
       memoryResult = self.query_memories(text, from_obj)
-
-      for memory in memoryResult['data']['Get']['Memories']:
-          memoryArray.append({"text": json.dumps(memory)})
+      #builtins.TypeError: 'UnexpectedStatusCodeException' object is not subscriptable
+      if type(memoryResult) is not dict:
+        memoryArray.append({"text": f"No memories found. {memoryResult}"})
+      else:
+        for memory in memoryResult['data']['Get']['Memories']:
+            memoryArray.append({"text": json.dumps(memory)})
       
       memoryArray.append({"text": "End of Related Context Memory Result."})
       memoryArray.append({"text": f"The time is now {datetime.now(timezone.utc).isoformat()}"})
