@@ -261,9 +261,13 @@ class GeminiNPC(Character):
       #logger.log_info(f"memoryResult: {memoryResult}")
 
       memoryArray.append({"text": "Recent Memory Result."})
-      for memory in memoryResult['data']['Get']['Memories']:
-          #logger.log_info(f"memory: {memory}")
-          memoryArray.append({"text": json.dumps(memory)})
+      #builtins.TypeError: 'UnexpectedStatusCodeException' object is not subscriptable
+      if type(memoryResult) is not dict:
+        memoryArray.append({"text": f"No memories found. {memoryResult}"})
+      else:
+        for memory in memoryResult['data']['Get']['Memories']:
+            #logger.log_info(f"memory: {memory}")
+            memoryArray.append({"text": json.dumps(memory)})
       
       memoryArray.append({"text": "End of Recent Memory Result."})
       memoryArray.append({"text": "Begin Related Context Memory Result."})
