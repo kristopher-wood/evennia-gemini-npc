@@ -23,8 +23,6 @@ from typeclasses.geminiClient import GeminiClient
 
 import weaviate
 import json
-from transformers import pipeline
-
 
 DEFAULT_LLM_REQUEST_BODY = []
 DEFAULT_WEAVIATE_URL = "http://localhost:8080"
