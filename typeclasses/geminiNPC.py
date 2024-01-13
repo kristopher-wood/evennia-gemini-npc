@@ -116,7 +116,7 @@ class GeminiNPC(Character):
         )
         class_obj = {
           "class": "Memories",
-          "vectorizer": "text2vec-transformers",
+          "vectorizer": "text2vec-huggingface",
           "description": "LLM Memories",
           "properties": [
             {
@@ -233,7 +233,7 @@ class GeminiNPC(Character):
 
       def _respond(response):
         """Async handling of the server response"""
-        #logger.log_info(f"_respond: {response}")
+        logger.log_info(f"_respond: {response}")
 
         if response:
             # remember this response
