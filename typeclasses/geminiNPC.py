@@ -157,11 +157,8 @@ class GeminiNPC(Character):
 
           timestamp = datetime.now(timezone.utc).isoformat() or None
 
-          if type(from_obj) is tuple:
-              from_obj = from_obj[0]
-
           data_object={
-            "self": self.name,
+            "self": str(self),
             "text": text,
             "from_obj": str(from_obj),
             "timestamp": timestamp
