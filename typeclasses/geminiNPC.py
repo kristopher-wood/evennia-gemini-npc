@@ -149,27 +149,24 @@ class GeminiNPC(Character):
 
     def add_memory(self, text, from_obj):
         response = ""
-        try:
-          wClient = weaviate.Client(
-              url=getattr(settings, "WEAVIATE_URL", DEFAULT_WEAVIATE_URL),  # Replace w/ your endpoint
-              auth_client_secret=weaviate.AuthApiKey(api_key=getattr(settings, "WEAVIATE_KEY", DEFAULT_WEAVIATE_KEY)),  # Replace w/ your Weaviate instance API key
-          )
+        wClient = weaviate.Client(
+            url=getattr(settings, "WEAVIATE_URL", DEFAULT_WEAVIATE_URL),  # Replace w/ your endpoint
+            auth_client_secret=weaviate.AuthApiKey(api_key=getattr(settings, "WEAVIATE_KEY", DEFAULT_WEAVIATE_KEY)),  # Replace w/ your Weaviate instance API key
+        )
 
-          timestamp = datetime.now(timezone.utc).isoformat() or None
+        timestamp = datetime.now(timezone.utc).isoformat() or None
 
-          data_object={
-            "self": str(self),
-            "text": text,
-            "from_obj": str(from_obj),
-            "timestamp": timestamp
-          }
+        data_object={
+          "self": str(self),
+          "text": text,
+          "from_obj": str(from_obj),
+          "timestamp": timestamp
+        }
 
-          response = wClient.data_object.create(class_name="Memories", data_object=data_object) # returns UUID of the new object
+        response = wClient.data_object.create(class_name="Memories", data_object=data_object) # returns UUID of the new object
 
-          #logger.log_info(f"Adding Memory: {data_object}")
-          logger.log_info(f"Add Memory Response: {response}")
-        except Exception as err:
-          logger.log_info(f"Error adding memory: {err}")
+        #logger.log_info(f"Adding Memory: {data_object}")
+        logger.log_info(f"Add Memory Response: {response}")
         return response
 
     def query_memories(self, text=None, from_obj=None):
