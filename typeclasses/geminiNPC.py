@@ -157,16 +157,16 @@ class GeminiNPC(Character):
 
           timestamp = datetime.now(timezone.utc).isoformat() or None
           #logger.log_info(f"self.name type: {type(self.name)}")
-          from_name = ""
-          if type(from_obj) is tuple:
-              from_name = from_obj[0]
+
           if type(from_obj) is Character:
-              from_name = from_obj.name
+              from_obj = str(from_obj.name)
+          elif type(from_obj) is tuple:
+              from_obj = str(from_obj[0])
 
           data_object={
             "self": self.name,
             "text": text,
-            "from_obj": from_name,
+            "from_obj": from_obj,
             "timestamp": timestamp
           }
 
