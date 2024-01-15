@@ -155,15 +155,19 @@ class GeminiNPC(Character):
         )
 
         timestamp = datetime.now(timezone.utc).isoformat() or None
+        if type(from_obj) is Character:
+            from_obj = str(from_obj.name)
+        else:
+           from_obj = str(from_obj)
 
         data_object={
-          "self": str(self),
+          "self": self.name,
           "text": text,
           "from_obj": str(from_obj),
           "timestamp": timestamp
         }
 
-        response = wClient.data_object.create(class_name="Memories", data_object=data_object) # returns UUID of the new object
+        response = wClient.data_object.create(class_name="Memories", data_object=str(data_object)) # returns UUID of the new object
 
         #logger.log_info(f"Adding Memory: {data_object}")
         logger.log_info(f"Add Memory Response: {response}")
