@@ -156,7 +156,7 @@ class GeminiNPC(Character):
 
         data_object={
           "self": str(self.name),
-          "text": text,
+          "text": str(text),
           "from_obj": str(from_obj),
           "timestamp": timestamp
         }
