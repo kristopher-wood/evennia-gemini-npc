@@ -152,9 +152,7 @@ class GeminiNPC(Character):
 
         timestamp = datetime.now(timezone.utc).isoformat() or None
         if type(from_obj) is Character:
-            from_obj = str(from_obj.name)
-        else:
-           from_obj = str(from_obj)
+            from_obj = from_obj.name
 
         data_object={
           "self": self.name,
