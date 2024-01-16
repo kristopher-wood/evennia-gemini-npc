@@ -154,13 +154,14 @@ class GeminiNPC(Character):
         if type(from_obj) is Character:
             from_obj = from_obj.name
 
-        data_object=json.loads(str({
+        data_object={
           "self": str(self.name),
           "text": text,
           "from_obj": str(from_obj),
           "timestamp": timestamp
-        }))
+        }
 
+        logger.log_info(f"Adding Memory: {data_object}")
         response = wClient.data_object.create(class_name="Memories", data_object=data_object) # returns UUID of the new object
 
         #logger.log_info(f"Adding Memory: {data_object}")
