@@ -154,7 +154,7 @@ class GeminiNPC(Character):
         if type(from_obj) is Character:
             from_obj = from_obj.name
 
-        data_object=json.dumps({
+        data_object=json.loads({
           "self": str(self.name),
           "text": text,
           "from_obj": str(from_obj),
