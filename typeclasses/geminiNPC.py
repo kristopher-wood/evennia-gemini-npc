@@ -163,7 +163,7 @@ class GeminiNPC(Character):
           "timestamp": timestamp
         }
 
-        response = wClient.data_object.create(class_name="Memories", data_object=str(data_object)) # returns UUID of the new object
+        response = wClient.data_object.create(class_name="Memories", data_object=data_object) # returns UUID of the new object
 
         #logger.log_info(f"Adding Memory: {data_object}")
         logger.log_info(f"Add Memory Response: {response}")
