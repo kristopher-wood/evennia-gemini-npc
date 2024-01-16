@@ -226,11 +226,11 @@ class GeminiNPC(Character):
 
         if response:
             # remember this response
-            self.add_memory(from_obj, text)
+            self.add_memory(text,from_obj)
         else:
             response = "... I'm sorry, I was distracted. Can you repeat?"
 
-        self.add_memory(self.name, response)
+        self.add_memory(response,self.name)
         command, value = response.split(' ', 1)
         if command == 'say':
           result = self.execute_cmd(f"say {value}")
