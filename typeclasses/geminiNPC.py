@@ -25,8 +25,7 @@ import weaviate
 import json
 
 DEFAULT_LLM_REQUEST_BODY = []
-DEFAULT_WEAVIATE_URL = ""
-DEFAULT_WEAVIATE_KEY = ""
+DEFAULT_WEAVIATE_URL = "http://localhost:8080"
 
 class GeminiNPC(Character):
     """An NPC that uses the Google Gemini API server to generate its responses. If the server is slow, it will
@@ -102,8 +101,7 @@ class GeminiNPC(Character):
     def delete_memories(self):
         # Instantiate the client with the auth config
         wClient = weaviate.Client(
-            url=getattr(settings, "WEAVIATE_URL", DEFAULT_WEAVIATE_URL),  # Replace w/ your endpoint
-            auth_client_secret=weaviate.AuthApiKey(api_key=getattr(settings, "WEAVIATE_KEY", DEFAULT_WEAVIATE_KEY)),  # Replace w/ your Weaviate instance API key
+            url=getattr(settings, "WEAVIATE_URL", DEFAULT_WEAVIATE_URL)
         )
         # TODO: Find out if this works
         response = wClient.schema.delete_class("Memories")
@@ -111,8 +109,7 @@ class GeminiNPC(Character):
 
     def initialize_memories(self):
         wClient = weaviate.Client(
-            url=getattr(settings, "WEAVIATE_URL", DEFAULT_WEAVIATE_URL),  # Replace w/ your endpoint
-            auth_client_secret=weaviate.AuthApiKey(api_key=getattr(settings, "WEAVIATE_KEY", DEFAULT_WEAVIATE_KEY)),  # Replace w/ your Weaviate instance API key
+            url=getattr(settings, "WEAVIATE_URL", DEFAULT_WEAVIATE_URL)
         )
         class_obj = {
           "class": "Memories",
@@ -150,8 +147,7 @@ class GeminiNPC(Character):
     def add_memory(self, text, from_obj):
         response = ""
         wClient = weaviate.Client(
-            url=getattr(settings, "WEAVIATE_URL", DEFAULT_WEAVIATE_URL),  # Replace w/ your endpoint
-            auth_client_secret=weaviate.AuthApiKey(api_key=getattr(settings, "WEAVIATE_KEY", DEFAULT_WEAVIATE_KEY)),  # Replace w/ your Weaviate instance API key
+            url=getattr(settings, "WEAVIATE_URL", DEFAULT_WEAVIATE_URL)
         )
 
         timestamp = datetime.now(timezone.utc).isoformat() or None
@@ -177,8 +173,7 @@ class GeminiNPC(Character):
         try:
           query_result = {}
           wClient = weaviate.Client(
-              url=getattr(settings, "WEAVIATE_URL", DEFAULT_WEAVIATE_URL),  # Replace w/ your endpoint
-              auth_client_secret=weaviate.AuthApiKey(api_key=getattr(settings, "WEAVIATE_KEY", DEFAULT_WEAVIATE_KEY)),  # Replace w/ your Weaviate instance API key
+              url=getattr(settings, "WEAVIATE_URL", DEFAULT_WEAVIATE_URL)
           )
           n = 5 # number (int) of memories to return
           certainty = 0.8 # float between 0 and 1
