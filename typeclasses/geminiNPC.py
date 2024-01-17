@@ -161,11 +161,10 @@ class GeminiNPC(Character):
           "timestamp": timestamp
         }
 
-        logger.log_info(f"Adding Memory: {data_object}")
+        #logger.log_info(f"Adding Memory: {data_object}")
         response = wClient.data_object.create(class_name="Memories", data_object=data_object) # returns UUID of the new object
 
-        #logger.log_info(f"Adding Memory: {data_object}")
-        logger.log_info(f"Add Memory Response: {response}")
+        #logger.log_info(f"Add Memory Response: {response}")
         return response
 
     def query_memories(self, text=None, from_obj=None):
@@ -222,7 +221,7 @@ class GeminiNPC(Character):
 
       def _respond(response):
         """Async handling of the server response"""
-        logger.log_info(f"_respond: {response}")
+        #logger.log_info(f"_respond: {response}")
 
         if response:
           # remember this response
@@ -232,6 +231,8 @@ class GeminiNPC(Character):
 
         self.add_memory(response,self.name)
         command, value = response.split(' ', 1)
+
+        logger.log_info(f"{self.cmdset.current.get_all_cmd_keys_and_aliases()}")
 
         if command == 'say':
           #result = self.execute_cmd(f"say {value}")

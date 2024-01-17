@@ -40,7 +40,7 @@ class GeminiClient:
             history (list): This is the chat history so far, and will be added to the
               prompt in a way suitable for the api."""
 
-      logger.log_info(f"Gemini NPC History: {history}")
+      #logger.log_info(f"Gemini NPC History: {history}")
       return self.model.start_chat(history=history)
 
 
@@ -66,22 +66,21 @@ class GeminiClient:
       return (500, failure.getErrorMessage())
 
   def _get_response_from_llm_server(self, text):
-      #history = self.history
-      logger.log_info(f"GeminiClient._get_response_from_llm_server({self}, {text})\n")
+      #logger.log_info(f"GeminiClient._get_response_from_llm_server({self}, {text})\n")
       """Call the LLM server and handle the response/failure"""
 
-      logger.log_info(f"User input: {text}")
+      #logger.log_info(f"User input: {text}")
 
       response = self.chat.send_message(text)
 
-      logger.log_info(f"Gemini API response: {response}")
+      #logger.log_info(f"Gemini API response: {response}")
 
       return response.text
       #return d
 
   @inlineCallbacks
   def get_response(self, text):
-      logger.log_info(f"GeminiClient.get_response: {text}")
+      #logger.log_info(f"GeminiClient.get_response: {text}")
       """
       Get a response from the LLM server for the given npc.
 
@@ -96,6 +95,5 @@ class GeminiClient:
       """
 
       response = yield self._get_response_from_llm_server(text)
-      #logger.log_info(self.weaviate_client.create_schema())
-      logger.log_info(f"GeminiClient.get_response: {response}")
+      #logger.log_info(f"GeminiClient.get_response: {response}")
       return response
