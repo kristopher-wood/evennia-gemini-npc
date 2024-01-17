@@ -238,9 +238,7 @@ class GeminiNPC(Character):
           result = self.execute_cmd(f"emote {value}")
         else:
           #from_obj.msg(response)
-          result = None
-
-        #result = self.execute_cmd(f"{response}")
+          result = self.execute_cmd(f"say {response}")
         logger.log_info(f"result: {result}")
         #from_obj.msg(response)
       
