@@ -237,7 +237,7 @@ class GeminiNPC(Character):
         elif command == 'emote':
           result = self.execute_cmd(f"emote {value}")
         else:
-          from_obj.msg(response)
+          from_obj.msg(f"Monty messages you: {response}")
           #result = self.execute_cmd(f"say {response}")
         logger.log_info(f"result: {result}")
         #from_obj.msg(response)
