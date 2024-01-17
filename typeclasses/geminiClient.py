@@ -67,7 +67,7 @@ class GeminiClient:
 
   def _get_response_from_llm_server(self, text):
       #history = self.history
-      logger.log_info(f"GeminiClient._get_response_from_llm_server({self}, {text})")
+      logger.log_info(f"GeminiClient._get_response_from_llm_server({self}, {text})\n")
       """Call the LLM server and handle the response/failure"""
 
       logger.log_info(f"User input: {text}")
