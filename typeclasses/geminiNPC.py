@@ -232,7 +232,8 @@ class GeminiNPC(Character):
         self.add_memory(response,self.name)
         command, value = response.split(' ', 1)
 
-        logger.log_info(f"{self.cmdset.current.get_all_cmd_keys_and_aliases()}")
+        logger.log_info(f"Current cmdset: {self.cmdset.current.get_all_cmd_keys_and_aliases()}")
+        logger.log_info(f"NPC type: {type(self)}")
 
         if command == 'say':
           #result = self.execute_cmd(f"say {value}")
